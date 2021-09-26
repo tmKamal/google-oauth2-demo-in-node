@@ -1,5 +1,7 @@
 const axios = require("axios");
 const queryString = require("query-string");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config");
 
 const getTokens = ({code, clientId, clientSecret, redirectUri}) => {
   // Uses the retrived code to get tokens that can be used to fetch the user's profile
@@ -28,4 +30,18 @@ const getTokens = ({code, clientId, clientSecret, redirectUri}) => {
       });
   });
 };
+
+
+const getTokenViaHttpCookie=(cookie)=>{
+  try {
+    const decodedToken = jwt.verify(cookie, JWT_SECRET);
+    console.log("decoded", decodedToken);
+    return decodedToken;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
+
 exports.getTokens = getTokens;
+exports.getTokenViaHttpCookie=getTokenViaHttpCookie;
