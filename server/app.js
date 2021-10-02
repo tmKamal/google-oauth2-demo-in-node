@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -12,9 +13,10 @@ const app = express();
 // middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // cors handler
-app.use(cors({ origin: `${process.env.CLIENT_URL}` }));
+app.use(cors({ origin: `${process.env.CLIENT_URL}`,credentials:true }));
 
 // routes middleware
 app.use('/api/auth', authRoutes);
